@@ -14,19 +14,15 @@ likert_scale_analyzer(data, likert_cols, invalid_values = c(" ", "NA", "N/A"))
 \item{invalid_values}{invalid values such as empty string, NA values, N/A values that are pre-set.}
 }
 \value{
-A list of 13 elements
+A nested list of 7 elements
 \itemize{
-\item month: A scalar character vector
-\item num: A scalar numeric vector
-\item link: A scalar character vector, may be empty
-\item year: A scalar character vector
-\item news: A scalar character vector, may be empty
-\item safe_title: A scalar character vector
-\item transcript: A scalar character vector
-\item alt: A scalar character vector
-\item img: A scalar character vector
-\item title: A scalar character vector
-\item day: A scalar character vector
+\item variable_name$question: A character vector
+\item variable_name$valid_count: A scalar numeric vector
+\item variable_name$invalid_count: A scalar numeric vector, may be empty
+\item variable_name$scale_range: A scalar numeric vector
+\item variable_name$scale_min: A scalar numeric vector
+\item variable_name$scale_max: A scalar numeric vector
+\item variable_name$response_counts_numeric_data: A table includes scale point and valid counts
 }
 }
 \description{
