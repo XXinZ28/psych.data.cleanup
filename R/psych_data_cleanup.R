@@ -84,6 +84,10 @@ likert_scale_analyzer <- function(data,
   return(results_list)
 }
 
+draw_graph <- function(x) {
+
+}
+
 ### sample data
 # data <- readr::read_csv("dataforpackage.csv")
 # likert_scale_analyzer(data, likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
