@@ -15,56 +15,57 @@
 #   return(x)
 # }
 # xinxin:line before 30
-test_df <- read.csv("dataforpackage.csv")
+# test_df <- read.csv("dataforpackage.csv")
+#
+# numeric_check <- function(x) {
+#   column_names <- colnames(x)
+#
+#   for (i in column_names) {
+#     if (is.numeric(x[[i]])) {
+#       cat("This column: ", i, "is numeric.\n")
+#     } else if (is.character(x[[i]])) {
+#       cat("This column: ", i, "is of character type.\n")
+#     } else {
+#       print("This column: ", i, "is of some other type.\n" )
+#     }
+#   }
+# }
+#
+# numeric_check(test_df)
+#
+# na_check <- function(x) {
+#   x[x == ""] <- NA
+#   return(x)
+# }
+#
+# na_check_df <- function(x) {
+#   x[] <- lapply(x, na_check)
+#   return(x)
+# }
+#
+# na_check_df(test_df)
+#
+# cat_check <- function(x) {
+#   column_names <- colnames(x)
+#
+#   for (i in column_names) {
+#     if (is.numeric(x[[i]])) {
+#       max_bound <- max(x[[i]])
+#       lower_bound <- min(x[[i]])
+#     } else {
+#       stop("This column is not of numeric type.")
+#     }
+#   }
+# }
+#
+# cat_check(test_df)
 
-numeric_check <- function(x) {
-  column_names <- colnames(x)
+#--------------------------------------#
 
-  for (i in column_names) {
-    if (is.numeric(x[[i]])) {
-      cat("This column: ", i, "is numeric.\n")
-    } else if (is.character(x[[i]])) {
-      cat("This column: ", i, "is of character type.\n")
-    } else {
-      print("This column: ", i, "is of some other type.\n" )
-    }
-  }
-}
+likert_scale_analyzer <- function(data,
+                                  likert_cols,
+                                  invalid_values = c(" ", "NA", "N/A")) {
 
-numeric_check(test_df)
-
-na_check <- function(x) {
-  x[x == ""] <- NA
-  return(x)
-}
-
-na_check_df <- function(x) {
-  x[] <- lapply(x, na_check)
-  return(x)
-}
-
-na_check_df(test_df)
-
-cat_check <- function(x) {
-  column_names <- colnames(x)
-
-  for (i in column_names) {
-    if (is.numeric(x[[i]])) {
-      max_bound <- max(x[[i]])
-      lower_bound <- min(x[[i]])
-    } else {
-      stop("This column is not of numeric type.")
-    }
-  }
-}
-
-cat_check(test_df)
-
-##########
-
-likert_scale_analyzer <- function(data, likert_cols, invalid_values = c("", "NA", "N/A")) {
-
-  data <- readr::read_csv("dataforpackage.csv")
 
   # ---- Validator Function for input ---- #
   # check 1) if data is actually a dataframe 2) likert_cols is a list of text names
@@ -88,8 +89,6 @@ likert_scale_analyzer <- function(data, likert_cols, invalid_values = c("", "NA"
     # convert all to character vector first for smooth processing later
     if (is.factor(col_data)) {
       col_data_char <- as.character(col_data)
-    } else {
-      col_data_char <- as.character(col_data)
     }
 
     # 1) assign all invalid values as NA (include " ", NA, N/A)
@@ -106,7 +105,7 @@ likert_scale_analyzer <- function(data, likert_cols, invalid_values = c("", "NA"
     # 4) determine likert scales range (e.g., 1-5, 1-8) for one question
     non_na_values <- numeric_data[!is.na(numeric_data)]
     if (length(non_na_values) > 0) {
-      min_value <- min(non_na_values, na.rm = TRUE)
+      min_value <- 1
       max_value <- max(non_na_values, na.rm = TRUE)
       scale_range <- max_value - min_value + 1
 
@@ -129,6 +128,12 @@ likert_scale_analyzer <- function(data, likert_cols, invalid_values = c("", "NA"
   # 7) group questions by scale type
 
   # 8) summarize counts by scale type
-
+  return(results_list)
 }
+
+### sample data
+# data <- readr::read_csv("dataforpackage.csv")
+#
+# likert_scale_analyzer(data,
+#                       likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
 
