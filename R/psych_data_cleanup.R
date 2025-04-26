@@ -42,10 +42,10 @@ likert_scale_analyzer <- function(data,
   for (col_name in likert_cols) {
     col_data <- likert_data_subset[[col_name]] # select column name first
 
-    # convert all to character vector first for smooth processing later
-    if (is.factor(col_data)) {
-      col_data_char <- as.character(col_data)
-    }
+    # # convert all to character vector first for smooth processing later
+    # if (is.factor(col_data)) {
+    # col_data_char <- as.character(col_data)
+    # }
 
     # 1) assign all invalid values as NA (include " ", NA, N/A)
     col_data[col_data %in% invalid_values | is.na(col_data)] <- NA
@@ -66,7 +66,7 @@ likert_scale_analyzer <- function(data,
       scale_range <- max_value - min_value + 1
 
     # 5) count number of response for each likert scale point, excluding NA values when counting frequencies
-    response_counts <- table(numeric_data, useNA = "no")
+      response_counts <- table(numeric_data, levels = seq(1, max_value), useNA = "no")
 
     # 6) update the empty result list created in the beginning, and store resut for this question.
     results_list[[col_name]] <- list(
@@ -84,9 +84,17 @@ likert_scale_analyzer <- function(data,
   return(results_list)
 }
 
-draw_graph <- function(x) {
-
-}
+#' @title Draw a histogram...
+#'
+#' @param x
+#'
+#' @returns
+#' @export
+#'
+#' @examples
+# draw_graph <- function(x) {
+#
+# }
 
 ### sample data
 # data <- readr::read_csv("dataforpackage.csv")
