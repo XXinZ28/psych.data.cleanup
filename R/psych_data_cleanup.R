@@ -1,67 +1,23 @@
-#' @title Use the xkcd API
+#' @title Use likert_scale_analyzer()
 #' @description
-#' Given a comic number, the `xkcd()` function calls the xkcd JSON API and returns metadata about the comic in the form of a list object.
-#'
-#' @importFrom jsonlite read_json
+#' Given a likert scale survey, the `likert_scale_analyzer` function filter out invalid responses such as NA values and empty string, calculate scale points and range for each question, and returns a list object holding counts for valid and invalid responses.
+#' @param data dataset that user uploaded
+#' @param likert_cols users input all the likert columns variable names in c("","",...)
+#' @param invalid_values invalid values such as empty string, NA values, N/A values that are pre-set.
+#' @importFrom uploaded dataset from users
+#' @returns A nested list of 7 elements
+#' * variable_name$question: A character vector
+#' * variable_name$valid_count: A scalar numeric vector
+#' * variable_name$invalid_count: A scalar numeric vector, may be empty
+#' * variable_name$scale_range: A scalar numeric vector
+#' * variable_name$scale_min: A scalar numeric vector
+#' * variable_name$scale_max: A scalar numeric vector
+#' * variable_name$response_counts_numeric_data: A table includes scale point and valid counts
+#' @examples
+#' data <- readr::read_csv("dataforpackage.csv")
+#' likert_scale_analyzer(data,likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
 #' @export
 #'
-
-# psych_data_cleanup <- function(number) {
-# """
-#   placeholder
-# """
-#   url <- file.path("https://xkcd.com", floor(number), "info.0.json")
-#   x <- jsonlite::read_json(url)
-#   return(x)
-# }
-# xinxin:line before 30
-# test_df <- read.csv("dataforpackage.csv")
-#
-# numeric_check <- function(x) {
-#   column_names <- colnames(x)
-#
-#   for (i in column_names) {
-#     if (is.numeric(x[[i]])) {
-#       cat("This column: ", i, "is numeric.\n")
-#     } else if (is.character(x[[i]])) {
-#       cat("This column: ", i, "is of character type.\n")
-#     } else {
-#       print("This column: ", i, "is of some other type.\n" )
-#     }
-#   }
-# }
-#
-# numeric_check(test_df)
-#
-# na_check <- function(x) {
-#   x[x == ""] <- NA
-#   return(x)
-# }
-#
-# na_check_df <- function(x) {
-#   x[] <- lapply(x, na_check)
-#   return(x)
-# }
-#
-# na_check_df(test_df)
-#
-# cat_check <- function(x) {
-#   column_names <- colnames(x)
-#
-#   for (i in column_names) {
-#     if (is.numeric(x[[i]])) {
-#       max_bound <- max(x[[i]])
-#       lower_bound <- min(x[[i]])
-#     } else {
-#       stop("This column is not of numeric type.")
-#     }
-#   }
-# }
-#
-# cat_check(test_df)
-
-#--------------------------------------#
-
 likert_scale_analyzer <- function(data,
                                   likert_cols,
                                   invalid_values = c(" ", "NA", "N/A")) {
@@ -125,15 +81,70 @@ likert_scale_analyzer <- function(data,
     }
   }
 
-  # 7) group questions by scale type
-
-  # 8) summarize counts by scale type
   return(results_list)
 }
 
 ### sample data
 # data <- readr::read_csv("dataforpackage.csv")
-#
-# likert_scale_analyzer(data,
-#                       likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
+# likert_scale_analyzer(data, likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
 
+# ------------------------------------------------------#
+# psych_data_cleanup <- function(number) {
+# """
+#   placeholder
+# """
+#   url <- file.path("https://xkcd.com", floor(number), "info.0.json")
+#   x <- jsonlite::read_json(url)
+#   return(x)
+# }
+# xinxin:line before 30
+# test_df <- read.csv("dataforpackage.csv")
+#
+# numeric_check <- function(x) {
+#   column_names <- colnames(x)
+#
+#   for (i in column_names) {
+#     if (is.numeric(x[[i]])) {
+#       cat("This column: ", i, "is numeric.\n")
+#     } else if (is.character(x[[i]])) {
+#       cat("This column: ", i, "is of character type.\n")
+#     } else {
+#       print("This column: ", i, "is of some other type.\n" )
+#     }
+#   }
+# }
+#
+# numeric_check(test_df)
+#
+# na_check <- function(x) {
+#   x[x == ""] <- NA
+#   return(x)
+# }
+#
+# na_check_df <- function(x) {
+#   x[] <- lapply(x, na_check)
+#   return(x)
+# }
+#
+# na_check_df(test_df)
+#
+# cat_check <- function(x) {
+#   column_names <- colnames(x)
+#
+#   for (i in column_names) {
+#     if (is.numeric(x[[i]])) {
+#       max_bound <- max(x[[i]])
+#       lower_bound <- min(x[[i]])
+#     } else {
+#       stop("This column is not of numeric type.")
+#     }
+#   }
+# }
+#
+# cat_check(test_df)
+
+
+
+# 7) group questions by scale type
+
+# 8) summarize counts by scale type
