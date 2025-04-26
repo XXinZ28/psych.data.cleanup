@@ -2,10 +2,37 @@
 % Please edit documentation in R/psych_data_cleanup.R
 \name{likert_scale_analyzer}
 \alias{likert_scale_analyzer}
-\title{Use the xkcd API}
+\title{Use likert_scale_analyzer()}
 \usage{
 likert_scale_analyzer(data, likert_cols, invalid_values = c(" ", "NA", "N/A"))
 }
+\arguments{
+\item{data}{dataset that user uploaded}
+
+\item{likert_cols}{users input all the likert columns variable names in c("","",...)}
+
+\item{invalid_values}{invalid values such as empty string, NA values, N/A values that are pre-set.}
+}
+\value{
+A list of 13 elements
+\itemize{
+\item month: A scalar character vector
+\item num: A scalar numeric vector
+\item link: A scalar character vector, may be empty
+\item year: A scalar character vector
+\item news: A scalar character vector, may be empty
+\item safe_title: A scalar character vector
+\item transcript: A scalar character vector
+\item alt: A scalar character vector
+\item img: A scalar character vector
+\item title: A scalar character vector
+\item day: A scalar character vector
+}
+}
 \description{
-Given a comic number, the \code{xkcd()} function calls the xkcd JSON API and returns metadata about the comic in the form of a list object.
+Given a likert scale survey, the \code{likert_scale_analyzer} function filter out invalid responses such as NA values and empty string, calculate scale points and range for each question, and returns a list object holding counts for valid and invalid responses.
+}
+\examples{
+data <- readr::read_csv("dataforpackage.csv")
+likert_scale_analyzer(data,likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
 }
