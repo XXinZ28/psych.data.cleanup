@@ -60,44 +60,91 @@ likert_scale_analyzer <- function(data,
 
     # 4) determine likert scales range (e.g., 1-5, 1-8) for one question
     non_na_values <- numeric_data[!is.na(numeric_data)]
-    if (length(non_na_values) > 0) {
-      min_value <- 1
-      max_value <- max(non_na_values, na.rm = TRUE)
-      scale_range <- max_value - min_value + 1
+    min_value <- 1
+    max_value <- max(non_na_values, na.rm = TRUE)
+    scale_range <- max_value - min_value + 1
 
     # 5) count number of response for each likert scale point, excluding NA values when counting frequencies
-      # response_counts <- table(numeric_data, levels = seq(1, max_value), useNA = "no")
+    response_counts <- table(factor(numeric_data, levels = as.character(1:max_value)), useNA = "no")
       # Troubleshoot the following code:
-    response_counts <- table(numeric_data, useNA = "no")
+    # response_counts <- table(numeric_data, useNA = "no")
 
     # 6) update the empty result list created in the beginning, and store resut for this question.
     results_list[[col_name]] <- list(
       question = col_name,
       valid_count = valid_count,
       invalid_count = invalid_count,
-      scale_range = scale_range,
+      # scale_range = scale_range,
       scale_min = min_value,
       scale_max = max_value,
       response_counts = response_counts
     )
-    }
+
   }
 
-  return(results_list)
+  # 7) assign class "Likert_List" to the result_list
+  class(results_list) <- "Likert_List"
+
+  # 8) define print method for Likert_List class
+  # print.Likert_List <- function(x, ...) {
+  #   cat("Likert Scale Analysis Results\n")
+  #   cat("----------------------------\n")
+  #   for (item in x) {
+  #     cat("Question:", item$question, "\n")
+  #     cat("Valid Responses:", item$valid_count, "\n")
+  #     cat("Invalid Responses:", item$invalid_count, "\n")
+  #     cat("Scale Min:", item$scale_min, "\n")
+  #     cat("Scale Max:", item$scale_max, "\n")
+  #     cat("Response Counts:")
+  #     print(item$response_counts)
+  #     cat("----------------------------\n")
+  #   }
+  # }
+
+  print.Likert_List <- function(x, ...) {
+    df <- as.data.frame(x)
+    cat("Likert Scale Summary:\n")
+    print(df, row.names = FALSE)
+  }
+
+  # 9) define as.data.frame method for Likert_List class: variable names in the dataframe: question,
+  # valid_count, invalid_count, scale_min, scale_max
+  as.data.frame.Likert_List <- function(x, ...) {
+    do.call(rbind, purrr::map_df(x, function(item) {
+      data.frame(
+        question = item$question,
+        valid_count = item$valid_count,
+        invalid_count = item$invalid_count,
+        scale_min = item$scale_min,
+        scale_max = item$scale_max,
+        response_count = item$response_counts
+      )
+    }))
+  }
+
+  # return(print.Likert_List(results_list))
+  return(as.data.frame(results_list))
 }
 
+# ---------------------------------------------------#
 #' @title Draw a histogram...
 #'
-#' @param x
+#' @param x The list output from [likert_scale_analyzer].
 #'
 #' @returns
 #' @export
 #'
 #' @examples
-draw_graph <- function(data, likert_cols, invalid_values = c("", NA, "N/A")) {
+#' # likert_results <- likert_scale_analyzer(
+#' #   data = religious_optimism,
+#' #   likert_cols = c("relig_practice0", "relig_q4","relig_q5"),
+#' #   invalid_values = c(" ", "NA")
+#' #   )
+#' #  draw_graph(likert_results)
+#'
+draw_graph <- function( ) {
   # Creating an object, `results_list` that is a call to the `likert_scale_analyzer` function,
   # and passing on the arguments: `data`, `likert_cols`, `invalid_values`.
-  results_list <- likert_scale_analyzer(data, likert_cols, invalid_values)
   library(tidyverse) # We must import this package
 
   # Using `map_dfr` to turn the elements of the `results_list` into a data frame.
@@ -115,7 +162,8 @@ draw_graph <- function(data, likert_cols, invalid_values = c("", NA, "N/A")) {
     labs(title = "Response by Likert Scale",
          x = "Response",
          y = "Count",
-         fill = "Question Name")
+         fill = "Question Name") +
+    theme_bw()
 
 }
 
