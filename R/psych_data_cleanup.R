@@ -66,7 +66,9 @@ likert_scale_analyzer <- function(data,
       scale_range <- max_value - min_value + 1
 
     # 5) count number of response for each likert scale point, excluding NA values when counting frequencies
-      response_counts <- table(numeric_data, levels = seq(1, max_value), useNA = "no")
+      # response_counts <- table(numeric_data, levels = seq(1, max_value), useNA = "no")
+      # Troubleshoot the following code:
+    response_counts <- table(numeric_data, useNA = "no")
 
     # 6) update the empty result list created in the beginning, and store resut for this question.
     results_list[[col_name]] <- list(
@@ -92,9 +94,32 @@ likert_scale_analyzer <- function(data,
 #' @export
 #'
 #' @examples
-# draw_graph <- function(x) {
-#
-# }
+draw_graph <- function(data, likert_cols, invalid_values = c("", NA, "N/A")) {
+  # Creating an object, `results_list` that is a call to the `likert_scale_analyzer` function,
+  # and passing on the arguments: `data`, `likert_cols`, `invalid_values`.
+  results_list <- likert_scale_analyzer(data, likert_cols, invalid_values)
+  library(tidyverse) # We must import this package
+
+  # Using `map_dfr` to turn the elements of the `results_list` into a data frame.
+  # Focusing only on keeping the name of the question, response number, response counts, and the max number count.
+  results_df <- map_dfr(results_list, function(x) tibble(question = x$question,
+                                                      response_num = names(x$response_counts),
+                                                      count = as.numeric(x$response_counts),
+                                                      max_count = as.numeric(x$scale_max)))
+  # Using the variables stored in the newly created `results_df` to plot faceted stacked bar plots by likert scale.
+  # Each question corresponds to a specific likert scale range, and the responses for each of the corresponding questions
+  # are differentiated by colors.
+  ggplot(results_df, aes(x = response_num, y = count, fill = question)) +
+    geom_col() +
+    facet_wrap(~max_count, scales = "free", ncol = 1) +
+    labs(title = "Response by Likert Scale",
+         x = "Response",
+         y = "Count",
+         fill = "Question Name")
+
+}
+
+## Note: The color palette is not final. It's very difficult to differentiate between questions with this current color palette.
 
 ### sample data
 # data <- readr::read_csv("dataforpackage.csv")
