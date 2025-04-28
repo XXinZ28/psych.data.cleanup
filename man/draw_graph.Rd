@@ -4,7 +4,7 @@
 \alias{draw_graph}
 \title{Draw a histogram...}
 \usage{
-draw_graph()
+draw_graph(x)
 }
 \arguments{
 \item{x}{The list output from \link{likert_scale_analyzer}.}

@@ -5,6 +5,7 @@
 #' @param likert_cols users input all the likert columns variable names in c("","",...)
 #' @param invalid_values invalid values such as empty string, NA values, N/A values that are pre-set.
 #' @importFrom uploaded dataset from users
+#' @S3method define print method for results_list using S3 method: print.likert_scale()
 #' @returns A nested list of 7 elements
 #' * variable_name$question: A character vector
 #' * variable_name$valid_count: A scalar numeric vector
@@ -42,16 +43,10 @@ likert_scale_analyzer <- function(data,
   for (col_name in likert_cols) {
     col_data <- likert_data_subset[[col_name]] # select column name first
 
-    # # convert all to character vector first for smooth processing later
-    # if (is.factor(col_data)) {
-    # col_data_char <- as.character(col_data)
-    # }
-
     # 1) assign all invalid values as NA (include " ", NA, N/A)
     col_data[col_data %in% invalid_values | is.na(col_data)] <- NA
 
     # 2) convert to numeric for Likert scales results
-    # numeric_data <- suppressWarnings(as.numeric(col_data))
     numeric_data <- as.numeric(col_data)
 
     # 3) count valid responses
@@ -66,8 +61,6 @@ likert_scale_analyzer <- function(data,
 
     # 5) count number of response for each likert scale point, excluding NA values when counting frequencies
     response_counts <- table(factor(numeric_data, levels = as.character(1:max_value)), useNA = "no")
-      # Troubleshoot the following code:
-    # response_counts <- table(numeric_data, useNA = "no")
 
     # 6) update the empty result list created in the beginning, and store resut for this question.
     results_list[[col_name]] <- list(
@@ -81,53 +74,56 @@ likert_scale_analyzer <- function(data,
     )
     }
 
-    )
-
-  }
-
   # 7) assign class "Likert_List" to the result_list
   class(results_list) <- "Likert_List"
 
   # 8) define print method for Likert_List class
-  # print.Likert_List <- function(x, ...) {
-  #   cat("Likert Scale Analysis Results\n")
-  #   cat("----------------------------\n")
-  #   for (item in x) {
-  #     cat("Question:", item$question, "\n")
-  #     cat("Valid Responses:", item$valid_count, "\n")
-  #     cat("Invalid Responses:", item$invalid_count, "\n")
-  #     cat("Scale Min:", item$scale_min, "\n")
-  #     cat("Scale Max:", item$scale_max, "\n")
-  #     cat("Response Counts:")
-  #     print(item$response_counts)
-  #     cat("----------------------------\n")
-  #   }
-  # }
-
+  # method 1:
   print.Likert_List <- function(x, ...) {
-    df <- as.data.frame(x)
-    cat("Likert Scale Summary:\n")
-    print(df, row.names = FALSE)
+    cat("Likert Scale Analysis Results\n")
+    cat("----------------------------\n")
+    for (item in x) {
+      cat("Question:", item$question, "\n")
+      cat("Valid Responses:", item$valid_count, "\n")
+      cat("Invalid Responses:", item$invalid_count, "\n")
+      cat("Scale Min:", item$scale_min, "\n")
+      cat("Scale Max:", item$scale_max, "\n")
+      cat("Response Counts:")
+      print(item$response_counts)
+      cat("----------------------------\n")
+    }
   }
+
+  # Method 2:
+  # print.Likert_List <- function(x, ...) {
+  #   df <- as.data.frame(x)
+  #   cat("Likert Scale Summary:\n")
+  #   print(df, row.names = FALSE)
+  # }
 
   # 9) define as.data.frame method for Likert_List class: variable names in the dataframe: question,
   # valid_count, invalid_count, scale_min, scale_max
-  as.data.frame.Likert_List <- function(x, ...) {
-    do.call(rbind, purrr::map_df(x, function(item) {
-      data.frame(
-        question = item$question,
-        valid_count = item$valid_count,
-        invalid_count = item$invalid_count,
-        scale_min = item$scale_min,
-        scale_max = item$scale_max,
-        response_count = item$response_counts
-      )
-    }))
+
+  # as.data.frame.Likert_List <- function(x, ...) {
+  #   do.call(rbind, purrr::map_df(x, function(item) {
+  #     data.frame(
+  #       question = item$question,
+  #       valid_count = item$valid_count,
+  #       invalid_count = item$invalid_count,
+  #       scale_min = item$scale_min,
+  #       scale_max = item$scale_max,
+  #       response_count = item$response_counts
+  #     )
+  #   }))
+  # }
+
+  return(print.Likert_List(results_list))
+  # print.Likert_List(results_list))
+  return(invisible(results_list))
+  # return(as.data.frame(results_list))
+
   }
 
-  # return(print.Likert_List(results_list))
-  return(as.data.frame(results_list))
-}
 
 # ---------------------------------------------------#
 #' @title Draw a histogram...
@@ -145,7 +141,7 @@ likert_scale_analyzer <- function(data,
 #' #   )
 #' #  draw_graph(likert_results)
 #'
-draw_graph <- function( ) {
+draw_graph <- function(x) {
   # Creating an object, `results_list` that is a call to the `likert_scale_analyzer` function,
   # and passing on the arguments: `data`, `likert_cols`, `invalid_values`.
   library(tidyverse) # We must import this package
@@ -167,72 +163,22 @@ draw_graph <- function( ) {
          y = "Count",
          fill = "Question Name") +
     theme_bw()
+  print(x)
 
 }
 
 ## Note: The color palette is not final. It's very difficult to differentiate between questions with this current color palette.
 
+# -------------------------------#
 ### sample data
 # data <- readr::read_csv("dataforpackage.csv")
 # likert_scale_analyzer(data, likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
 
-# ------------------------------------------------------#
-# psych_data_cleanup <- function(number) {
-# """
-#   placeholder
-# """
-#   url <- file.path("https://xkcd.com", floor(number), "info.0.json")
-#   x <- jsonlite::read_json(url)
-#   return(x)
-# }
-# xinxin:line before 30
-# test_df <- read.csv("dataforpackage.csv")
-#
-# numeric_check <- function(x) {
-#   column_names <- colnames(x)
-#
-#   for (i in column_names) {
-#     if (is.numeric(x[[i]])) {
-#       cat("This column: ", i, "is numeric.\n")
-#     } else if (is.character(x[[i]])) {
-#       cat("This column: ", i, "is of character type.\n")
-#     } else {
-#       print("This column: ", i, "is of some other type.\n" )
-#     }
-#   }
-# }
-#
-# numeric_check(test_df)
-#
-# na_check <- function(x) {
-#   x[x == ""] <- NA
-#   return(x)
-# }
-#
-# na_check_df <- function(x) {
-#   x[] <- lapply(x, na_check)
-#   return(x)
-# }
-#
-# na_check_df(test_df)
-#
-# cat_check <- function(x) {
-#   column_names <- colnames(x)
-#
-#   for (i in column_names) {
-#     if (is.numeric(x[[i]])) {
-#       max_bound <- max(x[[i]])
-#       lower_bound <- min(x[[i]])
-#     } else {
-#       stop("This column is not of numeric type.")
-#     }
-#   }
-# }
-#
-# cat_check(test_df)
 
+# likert_results <- likert_scale_analyzer(
+#   data,
+#   likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"),
+#   invalid_values = c(" ", "NA")
+# )
+# draw_graph(likert_results)
 
-
-# 7) group questions by scale type
-
-# 8) summarize counts by scale type
