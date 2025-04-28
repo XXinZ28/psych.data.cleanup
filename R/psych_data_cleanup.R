@@ -79,7 +79,7 @@ likert_scale_analyzer <- function(data,
       scale_min = min_value,
       scale_max = max_value,
       response_counts = response_counts
-    )
+    ) |>
     }
   }
 
