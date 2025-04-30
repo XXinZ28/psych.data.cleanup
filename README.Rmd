@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 # psych.data.cleanup
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/XXinZ28/psych.data.cleanup/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/XXinZ28/psych.data.cleanup/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/XXinZ28/psych.data.cleanup/graph/badge.svg)](https://app.codecov.io/gh/XXinZ28/psych.data.cleanup)
 <!-- badges: end -->
 
 The `psych.data.cleanup` package provides an R interface to retrieve data from surveys containing likert scale questionnaires. It converts all invalid values to identical format, generates a nested object list of descriptive statistics, and print it out to the user. You can visualize the results in the RStudio plot window.

@@ -96,11 +96,12 @@ print.Likert_List <- function(x) {
 #' @S3method Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()
 #' @param list_results Any list object belonging to the "Likert_list" class
 #' @importFrom purrr map_dfr
+#' @importFrom tibble tibble
 as.data.frame.Likert_List <- function(list_results) {
   results_df <- purrr::map_dfr(list_results, function(x) tibble::tibble(question = x$question,
                                                          response_num = names(x$response_counts),
-                                                         count = as.numeric(x$response_counts),
-                                                         max_count = as.numeric(x$scale_max)))
+                                                         count = as.integer(x$response_counts),
+                                                         max_count = as.integer(x$scale_max)))
   return(results_df)
 }
 
@@ -136,7 +137,7 @@ draw_graph <- function(x) {
          x = "Response",
          y = "Count",
          fill = "Likert Scale") +
-    ggplot2::scale_fill_continuous() + # if we remove this, the scale remains continuous but we want it to be discrete
+    # ggplot2::scale_fill_continuous() + # if we remove this, the scale remains continuous but we want it to be discrete
     ggplot2::theme_bw()
 }
 
