@@ -2,3 +2,10 @@
 
 export(draw_graph)
 export(likert_scale_analyzer)
+importFrom(ggplot2,facet_wrap)
+importFrom(ggplot2,geom_col)
+importFrom(ggplot2,ggplot)
+importFrom(ggplot2,labs)
+importFrom(ggplot2,scale_fill_continuous)
+importFrom(ggplot2,theme_bw)
+importFrom(purrr,map_dfr)

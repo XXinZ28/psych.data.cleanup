@@ -13,8 +13,7 @@
 #' * variable_name$scale_max: A scalar numeric vector
 #' * variable_name$response_counts_numeric_data: A table includes scale point and valid counts
 #' @examples
-#' data <- readr::read_csv("dataforpackage.csv")
-#' likert_scale_analyzer(data,likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
+#' likert_scale_analyzer(data = religious_som,likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
 #' @export
 #'
 likert_scale_analyzer <- function(data,
@@ -96,6 +95,7 @@ print.Likert_List <- function(x) {
 
 #' @S3method Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()
 #' @param list_results Any list object belonging to the "Likert_list" class
+#' @importFrom purrr map_dfr
 as.data.frame.Likert_List <- function(list_results) {
   results_df <- purrr::map_dfr(list_results, function(x) tibble::tibble(question = x$question,
                                                          response_num = names(x$response_counts),
@@ -109,7 +109,12 @@ as.data.frame.Likert_List <- function(list_results) {
 #' @title Draw a histogram
 #' @description It plots a series of histogram summarizing valid response counts by each question, differentiating by likert scale.
 #' @param x The dataframe created when [likert_scale_analyzer] is called.
-#'
+#' @importFrom ggplot2 geom_col
+#' @importFrom ggplot2 facet_wrap
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_fill_continuous
+#' @importFrom ggplot2 theme_bw
 #' @returns A series of facet_wrap histogram, corresponding to the likert_scale.
 #' @export
 #'
@@ -138,7 +143,7 @@ draw_graph <- function(x) {
 
 # -------------------------------#
 ### sample data usage
-# data <- readr::read_csv("dataforpackage.csv")
+# data <- readr::read_csv("data-raw/dataforpackage.csv")
 # likert_scale_analyzer(data, likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
 
 
