@@ -34,6 +34,9 @@ pak::pak("XXinZ28/psych.data.cleanup")
 Given a religious optimism survey data, the `likert_scale_analyzer` function returns a nested list object containing elements that summarizes response counts for each question.
 
 ```{r example}
+#| warning: false
+#| message: false
+
 library(psych.data.cleanup)
 
 likert_results <- likert_scale_analyzer(

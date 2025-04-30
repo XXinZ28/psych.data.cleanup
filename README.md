@@ -37,40 +37,6 @@ likert_results <- likert_scale_analyzer(
   likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"),
   invalid_values = c(" ", "NA")
 ) 
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
-#> Warning in likert_scale_analyzer(data = religious_som, likert_cols =
-#> c("relig_practice0", : NAs introduced by coercion
 #> Likert Scale Analysis Results
 #> ----------------------------
 #> Question: relig_practice0 
