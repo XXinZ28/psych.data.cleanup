@@ -74,7 +74,7 @@ likert_scale_analyzer <- function(data,
     )
     }
 
-  # 7) assign class "Likert_List" to the result_list
+  # 7) assign class "Likert_List" to the result_list list object
   class(results_list) <- "Likert_List"
 
   # 8) define print method for Likert_List class
@@ -117,12 +117,21 @@ likert_scale_analyzer <- function(data,
   #   }))
   # }
 
-  return(print.Likert_List(results_list))
+  # return(print.Likert_List(results_list))
   # print.Likert_List(results_list))
-  return(invisible(results_list))
+  # return(invisible(results_list))
   # return(as.data.frame(results_list))
+print(results_list)
+return(as.data.frame(results_list))
+}
 
-  }
+as.data.frame.Likert_List <- function(list_results) {
+  results_df <- purrr::map_dfr(list_results, function(x) tibble::tibble(question = x$question,
+                                                         response_num = names(x$response_counts),
+                                                         count = as.numeric(x$response_counts),
+                                                         max_count = as.numeric(x$scale_max)))
+  return(results_df)
+}
 
 
 # ---------------------------------------------------#
@@ -144,27 +153,27 @@ likert_scale_analyzer <- function(data,
 draw_graph <- function(x) {
   # Creating an object, `results_list` that is a call to the `likert_scale_analyzer` function,
   # and passing on the arguments: `data`, `likert_cols`, `invalid_values`.
-  library(tidyverse) # We must import this package
+  # library(tidyverse) # We must import this package
 
   # Using `map_dfr` to turn the elements of the `results_list` into a data frame.
   # Focusing only on keeping the name of the question, response number, response counts, and the max number count.
-  results_df <- map_dfr(results_list, function(x) tibble(question = x$question,
-                                                      response_num = names(x$response_counts),
-                                                      count = as.numeric(x$response_counts),
-                                                      max_count = as.numeric(x$scale_max)))
+  # results_df <- map_dfr(results_list, function(x) tibble(question = x$question,
+  #                                                     response_num = names(x$response_counts),
+  #                                                     count = as.numeric(x$response_counts),
+  #                                                     max_count = as.numeric(x$scale_max)))
   # Using the variables stored in the newly created `results_df` to plot faceted stacked bar plots by likert scale.
   # Each question corresponds to a specific likert scale range, and the responses for each of the corresponding questions
   # are differentiated by colors.
-  ggplot(results_df, aes(x = response_num, y = count, fill = question)) +
-    geom_col() +
-    facet_wrap(~max_count, scales = "free", ncol = 1) +
-    labs(title = "Response by Likert Scale",
+  df_results <- x
+  ggplot2::ggplot(df_results, ggplot2::aes(x = response_num, y = count, fill = max_count)) +
+    ggplot2::geom_col() +
+    ggplot2::facet_wrap(~question, scales = "free_x") +
+    ggplot2::labs(title = "Response Count by Question",
          x = "Response",
          y = "Count",
-         fill = "Question Name") +
-    theme_bw()
-  print(x)
-
+         fill = "Likert Scale") +
+    ggplot2::scale_fill_continuous() + # if we remove this, the scale remains continuous but we want it to be discrete
+    ggplot2::theme_bw()
 }
 
 ## Note: The color palette is not final. It's very difficult to differentiate between questions with this current color palette.
