@@ -2,15 +2,18 @@
 % Please edit documentation in R/psych_data_cleanup.R
 \name{draw_graph}
 \alias{draw_graph}
-\title{Draw a histogram...}
+\title{Draw a histogram}
 \usage{
 draw_graph(x)
 }
 \arguments{
-\item{x}{The list output from \link{likert_scale_analyzer}.}
+\item{x}{The dataframe created when \link{likert_scale_analyzer} is called.}
+}
+\value{
+A series of facet_wrap histogram, corresponding to the likert_scale.
 }
 \description{
-Draw a histogram...
+It plots a series of histogram summarizing valid response counts by each question, differentiating by likert scale.
 }
 \examples{
 # likert_results <- likert_scale_analyzer(
