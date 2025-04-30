@@ -2,6 +2,3 @@
 
 export(draw_graph)
 export(likert_scale_analyzer)
-importFrom(uploaded,dataset)
-importFrom(uploaded,from)
-importFrom(uploaded,users)

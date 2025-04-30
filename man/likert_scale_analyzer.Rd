@@ -14,7 +14,7 @@ likert_scale_analyzer(data, likert_cols, invalid_values = c(" ", "NA", "N/A"))
 \item{invalid_values}{invalid values such as empty string, NA values, N/A values that are pre-set.}
 }
 \value{
-A nested list of 7 elements
+A nested list object of 7 elements
 \itemize{
 \item variable_name$question: A character vector
 \item variable_name$valid_count: A scalar numeric vector

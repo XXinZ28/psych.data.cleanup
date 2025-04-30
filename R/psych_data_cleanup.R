@@ -4,8 +4,7 @@
 #' @param data dataset that user uploaded
 #' @param likert_cols users input all the likert columns variable names in c("","",...)
 #' @param invalid_values invalid values such as empty string, NA values, N/A values that are pre-set.
-#' @importFrom uploaded dataset from users
-#' @returns A nested list of 7 elements
+#' @returns A nested list object of 7 elements
 #' * variable_name$question: A character vector
 #' * variable_name$valid_count: A scalar numeric vector
 #' * variable_name$invalid_count: A scalar numeric vector, may be empty
