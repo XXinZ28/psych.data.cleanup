@@ -17,3 +17,7 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(psych.data.cleanup)
 ```
+
+## Browsing religious_som
+
+The main function of psych_data_cleanup package is to let you browse religious_som in R. Let's see how we can accomplish this. First, load the `psych_data_cleanup` package. Then, use the `likert_scale_analyzer()` function to output a nested list object of descriptive statistics for each selected likert scale survey question. 
