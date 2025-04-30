@@ -14,7 +14,7 @@ likert_scale_analyzer(data, likert_cols, invalid_values = c(" ", "NA", "N/A"))
 \item{invalid_values}{invalid values such as empty string, NA values, N/A values that are pre-set.}
 }
 \value{
-A nested list of 7 elements
+A nested list object of 7 elements
 \itemize{
 \item variable_name$question: A character vector
 \item variable_name$valid_count: A scalar numeric vector
@@ -29,6 +29,5 @@ A nested list of 7 elements
 Given a likert scale survey, the \code{likert_scale_analyzer} function filter out invalid responses such as NA values and empty string, calculate scale points and range for each question, and returns a list object holding counts for valid and invalid responses.
 }
 \examples{
-data <- readr::read_csv("dataforpackage.csv")
-likert_scale_analyzer(data,likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
+likert_scale_analyzer(data = religious_som,likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
 }
