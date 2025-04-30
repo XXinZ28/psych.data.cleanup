@@ -20,4 +20,30 @@ library(psych.data.cleanup)
 
 ## Browsing religious_som
 
-The main function of psych_data_cleanup package is to let you browse religious_som in R. Let's see how we can accomplish this. First, load the `psych_data_cleanup` package. Then, use the `likert_scale_analyzer()` function to output a nested list object of descriptive statistics for each selected likert scale survey question. 
+The main function of psych_data_cleanup package is to let you browse religious_som in R. Let's see how we can accomplish this. First, load the `psych_data_cleanup` package. Then, use the `likert_scale_analyzer()` function to output a nested list object of descriptive statistics for each selected likert scale survey question. We'll retrieve seven columns from religious_som, so we'll set the `likert_cols` argument to the names of the seven questions, and `invalid_values` argument to either empty string, `NA` or N/A values.
+
+```{r}
+selected_questions <- likert_scale_analyzer(
+  data = religious_som,
+  likert_cols = c("relig_q4","relig_q5","relig_q10","relig_q11", "SOM_q1","SOM_q2","SOM_q3"),
+  invalid_values = c(" ", "NA", "N/A")
+) 
+```
+
+The `draw_graph()` function takes in this nested list object and displays the series of histograms in the plot window.
+```{r}
+draw_graph(selected_questions)
+```
+
+## Religious Optimism Data
+
+The psych_data_cleanup package also comes with a built-in data set that resembles the responses of a religious optimism questionnaire.
+
+```{r}
+psych.data.cleanup::religious_som
+```
+
+
+
+
+
