@@ -101,7 +101,8 @@ as.data.frame.Likert_List <- function(list_results) {
   results_df <- purrr::map_dfr(list_results, function(x) tibble::tibble(question = x$question,
                                                          response_num = names(x$response_counts),
                                                          count = as.integer(x$response_counts),
-                                                         max_count = as.integer(x$scale_max)))
+                                                         max_count = as.factor(x$scale_max)))
+                                                         # max_count = as.integer(x$scale_max)))
   return(results_df)
 }
 
@@ -136,7 +137,7 @@ draw_graph <- function(x) {
     ggplot2::labs(title = "Response Count by Question",
          x = "Response",
          y = "Count",
-         fill = "Likert Scale") +
+         fill = "Likert Point Scales") +
     # ggplot2::scale_fill_continuous() + # if we remove this, the scale remains continuous but we want it to be discrete
     ggplot2::theme_bw()
 }
