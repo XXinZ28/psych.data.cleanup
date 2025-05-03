@@ -1,5 +1,5 @@
 Package: psych.data.cleanup
-Title: An R package to preprocess data in psychology survey that have multiple choices questions.
+Title: An R package to preprocess data in psychology survey that have multiple choices questions
 Version: 0.0.0.9000
 Authors@R: 
     person("XinXin", "Zhang", , "tz88802@gmail.com", role = c("aut", "cre"))
@@ -14,7 +14,8 @@ BugReports: https://github.com/XXinZ28/psych.data.cleanup/issues
 Imports: 
     ggplot2,
     purrr,
-    tibble
+    tibble,
+    vdiffr
 Depends: 
     R (>= 3.5)
 LazyData: true

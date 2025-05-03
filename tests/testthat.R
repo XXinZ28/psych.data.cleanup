@@ -8,5 +8,6 @@
 
 library(testthat)
 library(psych.data.cleanup)
+library(vdiffr)
 
 test_check("psych.data.cleanup")
