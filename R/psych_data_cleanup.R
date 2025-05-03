@@ -78,7 +78,8 @@ print(results_list)
 return(as.data.frame(results_list))
 }
 
-#' @method generic class Define print method for results_list using S3 method: print.likert_scale()
+#' @title Define print method for results_list using S3 method: print.likert_scale()
+#' @method print Likert_List
 #' @param x Any list object belonging to the "Likert_list" class
 print.Likert_List <- function(x) {
   cat("Likert Scale Analysis Results\n")
@@ -95,8 +96,9 @@ print.Likert_List <- function(x) {
   }
 }
 
-#' @method Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()
-#' @param list_results Any list object belonging to the "Likert_list" class
+#' @title Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()
+#' @method as.data.frame Likert_List
+#' @param list_results Any list object belonging to the "Likert_List" class
 #' @importFrom purrr map_dfr
 #' @importFrom tibble tibble
 as.data.frame.Likert_List <- function(list_results) {
@@ -140,5 +142,3 @@ draw_graph <- function(x) {
          fill = "Likert Point Scales") +
     ggplot2::theme_bw()
 }
-
-
