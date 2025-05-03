@@ -14,8 +14,7 @@ BugReports: https://github.com/XXinZ28/psych.data.cleanup/issues
 Imports: 
     ggplot2,
     purrr,
-    tibble,
-    vdiffr
+    tibble
 Depends: 
     R (>= 3.5)
 LazyData: true
