@@ -1,6 +1,8 @@
 #' @title Use likert_scale_analyzer()
 #' @description
-#' Given a likert scale survey, the `likert_scale_analyzer` function filter out invalid responses such as NA values and empty string, calculate scale points and range for each question, and returns a list object holding counts for valid and invalid responses.
+#' Given a likert scale survey, the `likert_scale_analyzer` function filter out invalid responses
+#' such as NA values and empty string, calculate scale points and range for each question, and
+#' returns a list object holding counts for valid and invalid responses.
 #' @param data dataset that user uploaded
 #' @param likert_cols users input all the likert columns variable names in c("","",...)
 #' @param invalid_values invalid values such as empty string, NA values, N/A values that are pre-set.
@@ -8,12 +10,12 @@
 #' * variable_name$question: A character vector
 #' * variable_name$valid_count: A scalar numeric vector
 #' * variable_name$invalid_count: A scalar numeric vector, may be empty
-#' * variable_name$scale_range: A scalar numeric vector
 #' * variable_name$scale_min: A scalar numeric vector
 #' * variable_name$scale_max: A scalar numeric vector
-#' * variable_name$response_counts_numeric_data: A table includes scale point and valid counts
+#' * variable_name$response_counts: A table includes scale point and valid counts
 #' @examples
-#' likert_scale_analyzer(data = religious_som,likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
+#' likert_scale_analyzer(data = religious_som,
+#' likert_cols = c("relig_q4","relig_experience1","relig_experience4","SOM_q1","SOM_q3"))
 #' @export
 #'
 likert_scale_analyzer <- function(data,
@@ -76,7 +78,7 @@ print(results_list)
 return(as.data.frame(results_list))
 }
 
-#' @S3method Define print method for results_list using S3 method: print.likert_scale()
+#' @method generic class Define print method for results_list using S3 method: print.likert_scale()
 #' @param x Any list object belonging to the "Likert_list" class
 print.Likert_List <- function(x) {
   cat("Likert Scale Analysis Results\n")
@@ -93,7 +95,7 @@ print.Likert_List <- function(x) {
   }
 }
 
-#' @S3method Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()
+#' @method Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()
 #' @param list_results Any list object belonging to the "Likert_list" class
 #' @importFrom purrr map_dfr
 #' @importFrom tibble tibble
@@ -102,7 +104,6 @@ as.data.frame.Likert_List <- function(list_results) {
                                                          response_num = names(x$response_counts),
                                                          count = as.integer(x$response_counts),
                                                          max_count = as.factor(x$scale_max)))
-                                                         # max_count = as.integer(x$scale_max)))
   return(results_df)
 }
 
@@ -119,10 +120,9 @@ as.data.frame.Likert_List <- function(list_results) {
 #' @importFrom ggplot2 theme_bw
 #' @returns A series of facet_wrap histogram, corresponding to the likert_scale.
 #' @export
-#'
 #' @examples
 #' # likert_results <- likert_scale_analyzer(
-#' #   data = religious_optimism,
+#' #   data = religious_som,
 #' #   likert_cols = c("relig_practice0", "relig_q4","relig_q5"),
 #' #   invalid_values = c(" ", "NA")
 #' #   )
@@ -138,21 +138,7 @@ draw_graph <- function(x) {
          x = "Response",
          y = "Count",
          fill = "Likert Point Scales") +
-    # ggplot2::scale_fill_continuous() + # if we remove this, the scale remains continuous but we want it to be discrete
     ggplot2::theme_bw()
 }
 
-
-# -------------------------------#
-### sample data usage
-# data <- readr::read_csv("data-raw/dataforpackage.csv")
-# likert_scale_analyzer(data, likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"))
-
-
-# likert_results <- likert_scale_analyzer(
-#   data,
-#   likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7"),
-#   invalid_values = c(" ", "NA")
-# )
-# draw_graph(likert_results)
 

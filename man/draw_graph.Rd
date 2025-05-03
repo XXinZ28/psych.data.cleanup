@@ -17,7 +17,7 @@ It plots a series of histogram summarizing valid response counts by each questio
 }
 \examples{
 # likert_results <- likert_scale_analyzer(
-#   data = religious_optimism,
+#   data = religious_som,
 #   likert_cols = c("relig_practice0", "relig_q4","relig_q5"),
 #   invalid_values = c(" ", "NA")
 #   )
