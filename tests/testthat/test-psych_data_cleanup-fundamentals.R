@@ -15,6 +15,12 @@ test_that("likert_scale_analyzer returns objects that are of data frame type", {
 test_that("data_graph produces a series of histogram given the data frame returned by likert_scale_analyzer", {
   vdiffr::expect_doppelganger(
     title = "histogram series",
-    fig = plot(likert_scale_analyzer(data = religious_som, likert_cols = c("relig_practice0", "relig_q4","relig_q5","relig_q10","relig_q11","relig_q12","relig_experience1","relig_experience2","relig_experience3","relig_experience4","SOM_q1","SOM_q2","SOM_q3","SOM_q4","SOM_q5","SOM_q6","SOM_q7")))
+    fig = draw_graph(
+      likert_scale_analyzer(
+        data        = religious_som,
+        likert_cols = c("relig_q4", "relig_q5", "relig_q10",
+                        "relig_q11", "SOM_q1", "SOM_q2", "SOM_q3")
+      )
+    )
   )
 })

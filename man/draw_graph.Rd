@@ -16,11 +16,11 @@ A series of facet_wrap histogram, corresponding to the likert_scale.
 It plots a series of histogram summarizing valid response counts by each question, differentiating by likert scale.
 }
 \examples{
-# likert_results <- likert_scale_analyzer(
-#   data = religious_som,
-#   likert_cols = c("relig_practice0", "relig_q4","relig_q5"),
-#   invalid_values = c(" ", "NA")
-#   )
-#  draw_graph(likert_results)
+ likert_results <- likert_scale_analyzer(
+  data = religious_som,
+  likert_cols = c("relig_practice0", "relig_q4","relig_q5"),
+  invalid_values = c(" ", "NA")
+  )
+ draw_graph(likert_results)
 
 }
