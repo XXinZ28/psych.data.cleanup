@@ -109,8 +109,6 @@ as.data.frame.Likert_List <- function(list_results) {
   return(results_df)
 }
 
-
-# ---------------------------------------------------#
 #' @title Draw a histogram
 #' @description It plots a series of histogram summarizing valid response counts by each question, differentiating by likert scale.
 #' @param x The dataframe created when [likert_scale_analyzer] is called.
@@ -120,6 +118,7 @@ as.data.frame.Likert_List <- function(list_results) {
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_fill_continuous
 #' @importFrom ggplot2 theme_bw
+#' @importFrom dplyr .data
 #' @returns A series of facet_wrap histogram, corresponding to the likert_scale.
 #' @export
 #' @examples
@@ -132,13 +131,23 @@ as.data.frame.Likert_List <- function(list_results) {
 #'
 draw_graph <- function(x) {
 
-  df_results <- x
-  ggplot2::ggplot(df_results, ggplot2::aes(x = response_num, y = response_counts, fill = scale_max)) +
+  # df_results <- x
+
+  # ggplot2::ggplot(df_results, ggplot2::aes(x = response_num, y = response_counts, fill = scale_max)) +
+  #   ggplot2::geom_col() +
+  #   ggplot2::facet_wrap(~question, scales = "free_x") +
+  #   ggplot2::labs(title = "Response Count by Question",
+  #        x = "Response",
+  #        y = "Count",
+  #        fill = "Likert Point Scales") +
+  #   ggplot2::theme_bw()
+
+  ggplot2::ggplot(x, ggplot2::aes(x = .data$response_num, y = .data$response_counts, fill = .data$scale_max)) +
     ggplot2::geom_col() +
     ggplot2::facet_wrap(~question, scales = "free_x") +
     ggplot2::labs(title = "Response Count by Question",
-         x = "Response",
-         y = "Count",
-         fill = "Likert Point Scales") +
+                  x = "Response",
+                  y = "Count",
+                  fill = "Likert Point Scales") +
     ggplot2::theme_bw()
 }
