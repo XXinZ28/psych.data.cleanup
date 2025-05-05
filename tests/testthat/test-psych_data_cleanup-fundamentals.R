@@ -19,11 +19,11 @@ test_that("likert_scale_analyzer returns a nested list object with designated el
     invalid_values = c(" ", "NA", "N/A"))
 
   expect_type(selected_lsa, "list") # likert_scale_analyzer returned objects should be lists
-  expect_named(selected_lsa, c("question", "response_num", "count", "max_count")) # likert_scale_analyzer returned list should contain elements: `question`, `response_num`, `count`, and `max_count`
+  expect_named(selected_lsa, c("question", "response_num", "response_counts", "scale_max")) # likert_scale_analyzer returned list should contain elements: `question`, `response_num`, `count`, and `max_count`
   expect_type(selected_lsa$question, "character") # element `question` of the likert_scale_analyzer returned nested list object should be of character type
   expect_type(selected_lsa$response_num, "character") # element `response_num` of the likert_scale_analyzer returned nested list object should be of character type
-  expect_type(selected_lsa$count, "integer") # element `count` of the likert_scale_analyzer returned nested list object should be of integer type
-  expect_type(selected_lsa$max_count, "integer") # element `max_count` of the likert_scale_analyzer returned nested list object should be of integer
+  expect_type(selected_lsa$response_counts, "integer") # element `count` of the likert_scale_analyzer returned nested list object should be of integer type
+  expect_type(selected_lsa$scale_max, "integer") # element `max_count` of the likert_scale_analyzer returned nested list object should be of integer
 })
 
 test_that("data_graph produces a series of histogram given the data frame returned by likert_scale_analyzer", {

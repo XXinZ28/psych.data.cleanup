@@ -32,7 +32,7 @@ likert_scale_analyzer <- function(data,
     stop("'likert_cols' must be a character vector of column names.")
   }
 
-  # select only likert scale columns to process
+  # subset dataset to select only likert scale columns to process
   likert_data_subset <- data[, likert_cols]
 
   # create an empty list to store results for each question
@@ -60,7 +60,7 @@ likert_scale_analyzer <- function(data,
     # 5) count number of response for each likert scale point, excluding NA values when counting frequencies
     response_counts <- table(factor(numeric_data, levels = as.character(1:max_value)), useNA = "no")
 
-    # 6) update the empty result list created in the beginning, and store resut for this question.
+    # 6) update the empty result list created in the beginning, and store result for this question.
     results_list[[col_name]] <- list(
       question = col_name,
       valid_count = valid_count,
@@ -104,8 +104,8 @@ print.Likert_List <- function(x) {
 as.data.frame.Likert_List <- function(list_results) {
   results_df <- purrr::map_dfr(list_results, function(x) tibble::tibble(question = x$question,
                                                          response_num = names(x$response_counts),
-                                                         count = as.integer(x$response_counts),
-                                                         max_count = as.factor(x$scale_max)))
+                                                         response_counts = as.integer(x$response_counts),
+                                                         scale_max = as.factor(x$scale_max)))
   return(results_df)
 }
 
@@ -133,7 +133,7 @@ as.data.frame.Likert_List <- function(list_results) {
 draw_graph <- function(x) {
 
   df_results <- x
-  ggplot2::ggplot(df_results, ggplot2::aes(x = response_num, y = count, fill = max_count)) +
+  ggplot2::ggplot(df_results, ggplot2::aes(x = response_num, y = response_counts, fill = scale_max)) +
     ggplot2::geom_col() +
     ggplot2::facet_wrap(~question, scales = "free_x") +
     ggplot2::labs(title = "Response Count by Question",
