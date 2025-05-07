@@ -14,8 +14,10 @@
 #' * variable_name$scale_max: A scalar numeric vector
 #' * variable_name$response_counts: A table includes scale point and valid counts
 #' @examples
-#' likert_scale_analyzer(data = religious_som,
-#' likert_cols = c("relig_q4","relig_experience1","relig_experience4","SOM_q1","SOM_q3"))
+#' likert_scale_analyzer(
+#'   data = religious_som,
+#'   likert_cols = c("relig_q4","relig_experience1","relig_experience4","SOM_q1","SOM_q3")
+#'  )
 #' @export
 #'
 likert_scale_analyzer <- function(data,
@@ -72,10 +74,13 @@ likert_scale_analyzer <- function(data,
     }
 
   # 7) assign class "Likert_List" to the result_list list object
+  # Suggestion
+  # results_list <- as.data.frame(results_list)
+  # class(results_list) <- c("Likert_List", class(results_list))
   class(results_list) <- "Likert_List"
 
-print(results_list)
-return(as.data.frame(results_list))
+  print(results_list)
+  return(as.data.frame(results_list))
 }
 
 #' @title Define print method for results_list using S3 method: print.likert_scale()
@@ -141,6 +146,24 @@ draw_graph <- function(x) {
   #        y = "Count",
   #        fill = "Likert Point Scales") +
   #   ggplot2::theme_bw()
+#
+#   df_col_names <- names(x)
+
+  # x <- validate_likert(x)
+  #
+  # expected_col_names <- c("question", "response_num", "response_counts", "scale_max")
+  #
+  # if (!is.data.frame(x) && grepl(expected_col_names, df_col_names, ignore.case = FALSE) == FALSE) {
+  #   stop("Input `x` must be the data frame returned when `likert_scale_analyzer` is called")
+  # }
+  #
+  # if (class(x) != "Likert_List") {
+  #   stop("Input `x` must be a Liker_List object returned from `likert_scale_analyzer()`")
+  # }
+  #
+  # if(!is.data.frame(x)) {
+  #   stop("Input `x` must be a data frame")
+  # }
 
   ggplot2::ggplot(x, ggplot2::aes(x = .data$response_num, y = .data$response_counts, fill = .data$scale_max)) +
     ggplot2::geom_col() +
