@@ -45,19 +45,18 @@ likert_scale_analyzer <- function(data,
     col_data <- likert_data_subset[[col_name]] # select column name first
 
     # 1) assign all invalid values as NA (include " ", NA, N/A)
-    col_data[col_data %in% invalid_values | is.na(col_data)] <- NA
+    col_data[col_data %in% invalid_values] <- NA
 
     # 2) convert to numeric for Likert scales results
     numeric_data <- as.numeric(col_data)
 
     # 3) count valid responses
     valid_count <- sum(!is.na(numeric_data))
-    invalid_count <- sum(is.na(numeric_data))
+    invalid_count <- length(numeric_data)
 
     # 4) determine likert scales range (e.g., 1-5, 1-8) for one question
-    non_na_values <- numeric_data[!is.na(numeric_data)]
     min_value <- 1
-    max_value <- max(non_na_values, na.rm = TRUE)
+    max_value <- max(numeric_data[!is.na(numeric_data)])
 
     # 5) count number of response for each likert scale point, excluding NA values when counting frequencies
     response_counts <- table(factor(numeric_data, levels = as.character(1:max_value)), useNA = "no")
@@ -74,33 +73,17 @@ likert_scale_analyzer <- function(data,
     }
 
   # 7) assign class "Likert_List" to the result_list list object
+
   # Suggestion
   # results_list <- as.data.frame(results_list)
   # class(results_list) <- c("Likert_List", class(results_list))
   # return(results_list)
+
   class(results_list) <- "Likert_List"
 
-  print(results_list)
   return(as.data.frame(results_list))
 }
 
-#' @title Define print method for results_list using S3 method: print.likert_scale()
-#' @method print Likert_List
-#' @param x Any list object belonging to the "Likert_list" class
-print.Likert_List <- function(x) {
-  cat("Likert Scale Analysis Results\n")
-  cat("----------------------------\n")
-  for (item in x) {
-    cat("Question:", item$question, "\n")
-    cat("Valid Responses:", item$valid_count, "\n")
-    cat("Invalid Responses:", item$invalid_count, "\n")
-    cat("Scale Min:", item$scale_min, "\n")
-    cat("Scale Max:", item$scale_max, "\n")
-    cat("Response Counts:")
-    print(item$response_counts)
-    cat("----------------------------\n")
-  }
-}
 
 #' @title Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()
 #' @method as.data.frame Likert_List
