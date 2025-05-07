@@ -73,6 +73,12 @@ likert_scale_analyzer <- function(data,
     }
 
   # 7) assign class "Likert_List" to the result_list list object
+
+  # Suggestion
+  # results_list <- as.data.frame(results_list)
+  # class(results_list) <- c("Likert_List", class(results_list))
+  # return(results_list)
+
   class(results_list) <- "Likert_List"
 
   return(as.data.frame(results_list))
@@ -85,7 +91,7 @@ likert_scale_analyzer <- function(data,
 #' @importFrom purrr map_dfr
 #' @importFrom tibble tibble
 as.data.frame.Likert_List <- function(list_results) {
-  results_df <- purrr::map_dfr(list_results, function(x) tibble::tibble(question = x$question,
+  results_df <- purrr::map_dfr(list_results, function(x) data.frame(question = x$question,
                                                          response_num = names(x$response_counts),
                                                          response_counts = as.integer(x$response_counts),
                                                          scale_max = as.factor(x$scale_max)))
@@ -114,7 +120,7 @@ as.data.frame.Likert_List <- function(list_results) {
 #'
 draw_graph <- function(x) {
 
-  # df_results <- x
+  df_results <- x
 
   # ggplot2::ggplot(df_results, ggplot2::aes(x = response_num, y = response_counts, fill = scale_max)) +
   #   ggplot2::geom_col() +
@@ -143,7 +149,7 @@ draw_graph <- function(x) {
   #   stop("Input `x` must be a data frame")
   # }
 
-  ggplot2::ggplot(x, ggplot2::aes(x = .data$response_num, y = .data$response_counts, fill = .data$scale_max)) +
+  ggplot2::ggplot(df_results, ggplot2::aes(x = .data[["response_num"]], y = .data[["response_counts"]], fill = .data[["scale_max"]])) +
     ggplot2::geom_col() +
     ggplot2::facet_wrap(~question, scales = "free_x") +
     ggplot2::labs(title = "Response Count by Question",

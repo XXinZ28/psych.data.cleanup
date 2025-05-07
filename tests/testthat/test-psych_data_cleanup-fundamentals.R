@@ -29,11 +29,8 @@ test_that("draw_graph returns a list object containing elements containing plot 
   expect_type(selected_lsa_2_graphs, "list")
 })
 
-# test_that("print.Likert_List takes in an argument", {
-#
-# })
 
-test_that("data_graph produces a series of histogram given the data frame returned by likert_scale_analyzer", {
+test_that("draw_graph produces a series of histogram given the data frame returned by likert_scale_analyzer", {
   vdiffr::expect_doppelganger(
     title = "histogram series",
     fig = draw_graph(
@@ -44,4 +41,89 @@ test_that("data_graph produces a series of histogram given the data frame return
       )
     )
   )
+})
+
+test_that("as.data.frame.Likert_List method creates a data frame with the correct column names and rows", {
+  selected_lsa <- likert_scale_analyzer(
+    data = religious_som,
+    likert_cols = c("relig_q4", "relig_q5", "relig_q10", "relig_q11", "SOM_q1", "SOM_q2", "SOM_q3"),
+    invalid_values = c(" ", "NA", "N/A")
+  )
+
+  expected_df <- structure(list(question = c("relig_q4", "relig_q4", "relig_q4",
+                                             "relig_q4", "relig_q4", "relig_q4",
+                                             "relig_q4", "relig_q4", "relig_q5",
+                                             "relig_q5", "relig_q5", "relig_q5",
+                                             "relig_q5", "relig_q5", "relig_q5",
+                                             "relig_q5", "relig_q10", "relig_q10",
+                                             "relig_q10", "relig_q10", "relig_q10",
+                                             "relig_q11", "relig_q11", "relig_q11",
+                                             "relig_q11", "relig_q11", "SOM_q1",
+                                             "SOM_q1", "SOM_q1", "SOM_q1",
+                                             "SOM_q1", "SOM_q2", "SOM_q2",
+                                             "SOM_q2", "SOM_q2", "SOM_q2",
+                                             "SOM_q3", "SOM_q3", "SOM_q3",
+                                             "SOM_q3", "SOM_q3"),
+                                response_num = c("1", "2", "3",
+                                                 "4", "5", "6",
+                                                 "7", "8", "1",
+                                                 "2", "3", "4",
+                                                 "5", "6", "7",
+                                                 "8", "1", "2",
+                                                 "3", "4", "5",
+                                                 "1", "2", "3",
+                                                 "4", "5", "1",
+                                                 "2", "3", "4",
+                                                 "5", "1", "2",
+                                                 "3", "4", "5",
+                                                 "1", "2", "3",
+                                                 "4", "5"),
+                                response_counts = c(15L, 4L, 4L,
+                                                    2L, 2L, 2L,
+                                                    3L, 8L, 14L,
+                                                    6L, 1L, 7L,
+                                                    3L, 3L, 0L,
+                                                    6L, 17L, 10L,
+                                                    3L, 2L, 8L,
+                                                    14L, 9L, 4L,
+                                                    2L, 11L, 1L,
+                                                    3L, 9L, 16L,
+                                                    9L, 2L, 3L,
+                                                    6L, 11L, 16L,
+                                                    2L, 4L, 6L,
+                                                    16L, 10L),
+                                scale_max = structure(c(1L, 1L, 1L,
+                                                        1L, 1L, 1L,
+                                                        1L, 1L, 1L,
+                                                        1L, 1L, 1L,
+                                                        1L, 1L, 1L,
+                                                        1L, 2L, 2L,
+                                                        2L, 2L, 2L,
+                                                        2L, 2L, 2L,
+                                                        2L, 2L, 2L,
+                                                        2L, 2L, 2L,
+                                                        2L, 2L, 2L,
+                                                        2L, 2L, 2L,
+                                                        2L, 2L, 2L,
+                                                        2L, 2L),
+                                                      levels = c("8", "5"),
+                                                      class = "factor")),
+                           class = c("tbl_df", "tbl", "data.frame"),
+                           row.names = c(NA, -41L))
+
+  expect_identical(selected_lsa, expected_df)
+
+  # expected_df <- data.frame(
+  #   question = c("relig_q4", "relig_q4", "relig_q4", "relig_q4", "relig_q4", "relig_q4", "relig_q4", "relig_q4",
+  #                "relig_experience1", "relig_experience1", "relig_experience1", "relig_experience1", "relig_experience1",
+  #                "relig_experience4", "relig_experience4", "relig_experience4", "relig_experience4", "relig_experience4",
+  #                "SOM_q1", "SOM_q1", "SOM_q1", "SOM_q1", "SOM_q1", "SOM_q3", "SOM_q3", "SOM_q3", "SOM_q3", "SOM_q3"),
+  #   response_num = c("1", "2", "3", "4", "5", "6", "7", "8", "1", "2", "3", "4", "5", "1", "2", "3", "4", "5", "1", "2", "3", "4", "5", "1", "2", "3", "4", "5"),
+  #   response_counts = as.integer(c(15, 4, 4, 2, 2, 2, 3, 8, 7, 13, 5, 5, 10, 14, 10, 8, 6, 2, 1, 3, 9, 16, 9, 2, 4, 6, 16, 10)),
+  #   scale_max = as.factor(c(8, 8, 8, 8, 8, 8, 8, 8, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5)))
+  #
+  # expect_identical(likert_scale_analyzer(data = religious_som,
+  #                                        likert_cols = c("relig_q4", "relig_experience1",
+  #                                                        "relig_experience4","SOM_q1","SOM_q3"),
+  #                                        invalid_values = c(" ", "NA", "N/A")), expected_df)
 })
