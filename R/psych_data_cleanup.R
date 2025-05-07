@@ -76,25 +76,25 @@ likert_scale_analyzer <- function(data,
 
   # Suggestion
   # results_list <- as.data.frame(results_list)
-  # class(results_list) <- c("Likert_List", class(results_list))
+  class(results_list) <- c("Likert_List")
   # return(results_list)
 
-  class(results_list) <- "Likert_List"
+  return(results_list)
 
-  return(as.data.frame(results_list))
+  # class(results_list) <- "Likert_List"
+
+  # return(as.data.frame(results_list))
 }
-
 
 #' @title Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()
 #' @method as.data.frame Likert_List
 #' @param list_results Any list object belonging to the "Likert_List" class
 #' @importFrom purrr map_dfr
-#' @importFrom tibble tibble
 as.data.frame.Likert_List <- function(list_results) {
   results_df <- purrr::map_dfr(list_results, function(x) data.frame(question = x$question,
                                                          response_num = names(x$response_counts),
                                                          response_counts = as.integer(x$response_counts),
-                                                         scale_max = as.factor(x$scale_max)))
+                                                         scale_max = x$scale_max))
   return(results_df)
 }
 
@@ -120,41 +120,41 @@ as.data.frame.Likert_List <- function(list_results) {
 #'
 draw_graph <- function(x) {
 
-  df_results <- x
+  x <- validate_likert(x)
 
-  # ggplot2::ggplot(df_results, ggplot2::aes(x = response_num, y = response_counts, fill = scale_max)) +
-  #   ggplot2::geom_col() +
-  #   ggplot2::facet_wrap(~question, scales = "free_x") +
-  #   ggplot2::labs(title = "Response Count by Question",
-  #        x = "Response",
-  #        y = "Count",
-  #        fill = "Likert Point Scales") +
-  #   ggplot2::theme_bw()
-#
-#   df_col_names <- names(x)
+  df_results <- as.data.frame(x)
 
-  # x <- validate_likert(x)
-  #
-  # expected_col_names <- c("question", "response_num", "response_counts", "scale_max")
-  #
-  # if (!is.data.frame(x) && grepl(expected_col_names, df_col_names, ignore.case = FALSE) == FALSE) {
-  #   stop("Input `x` must be the data frame returned when `likert_scale_analyzer` is called")
-  # }
-  #
-  # if (class(x) != "Likert_List") {
-  #   stop("Input `x` must be a Liker_List object returned from `likert_scale_analyzer()`")
-  # }
-  #
-  # if(!is.data.frame(x)) {
-  #   stop("Input `x` must be a data frame")
-  # }
+  df_results$scale_max <- as.factor(df_results$scale_max)
 
   ggplot2::ggplot(df_results, ggplot2::aes(x = .data[["response_num"]], y = .data[["response_counts"]], fill = .data[["scale_max"]])) +
     ggplot2::geom_col() +
-    ggplot2::facet_wrap(~question, scales = "free_x") +
+    ggplot2::facet_wrap(~.data[["question"]], scales = "free_x") +
     ggplot2::labs(title = "Response Count by Question",
                   x = "Response",
                   y = "Count",
                   fill = "Likert Point Scales") +
     ggplot2::theme_bw()
+}
+
+#' MISSING TITLE
+#'
+#' @param x the argument received by the `draw_graph()` function
+#' @importFrom methods is
+#' @returns x
+#'
+#' @examples
+#' likert_results <- likert_scale_analyzer(
+#'   data = religious_som,
+#'   likert_cols = c("relig_practice0", "relig_q4","relig_q5"),
+#'   invalid_values = c(" ", "NA"))
+#'
+#'  draw_graph(likert_results)
+#'
+validate_likert <- function(x) {
+
+  if (!is(x, "Likert_List")) {
+    stop("Argument `x` needs to be of class `Likert_List`")
+  }
+
+  return(x)
 }
