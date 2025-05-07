@@ -45,19 +45,19 @@ likert_scale_analyzer <- function(data,
     col_data <- likert_data_subset[[col_name]] # select column name first
 
     # 1) assign all invalid values as NA (include " ", NA, N/A)
-    col_data[col_data %in% invalid_values | is.na(col_data)] <- NA
+    col_data[col_data %in% invalid_values] <- NA
 
     # 2) convert to numeric for Likert scales results
     numeric_data <- as.numeric(col_data)
 
     # 3) count valid responses
     valid_count <- sum(!is.na(numeric_data))
-    invalid_count <- sum(is.na(numeric_data))
+    invalid_count <- length(numeric_data)
 
     # 4) determine likert scales range (e.g., 1-5, 1-8) for one question
-    non_na_values <- numeric_data[!is.na(numeric_data)]
+    # non_na_values <- numeric_data[!is.na(numeric_data)]
     min_value <- 1
-    max_value <- max(non_na_values, na.rm = TRUE)
+    max_value <- max(numeric_data[!is.na(numeric_data)])
 
     # 5) count number of response for each likert scale point, excluding NA values when counting frequencies
     response_counts <- table(factor(numeric_data, levels = as.character(1:max_value)), useNA = "no")
