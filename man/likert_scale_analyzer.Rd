@@ -30,6 +30,8 @@ such as NA values and empty string, calculate scale points and range for each qu
 returns a list object holding counts for valid and invalid responses.
 }
 \examples{
-likert_scale_analyzer(data = religious_som,
-likert_cols = c("relig_q4","relig_experience1","relig_experience4","SOM_q1","SOM_q3"))
+likert_scale_analyzer(
+  data = religious_som,
+  likert_cols = c("relig_q4","relig_experience1","relig_experience4","SOM_q1","SOM_q3")
+ )
 }
