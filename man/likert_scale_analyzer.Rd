@@ -11,11 +11,12 @@ likert_scale_analyzer(data, likert_cols, invalid_values = c(" ", "NA", "N/A"))
 
 \item{likert_cols}{A character vector containing Likert-scale question names in c("","", ...).}
 
-\item{invalid_values}{A character vector containing invalid values such as empty string, NA values, N/A values, which are pre-set.}
+\item{invalid_values}{A character vector containing invalid values such as empty string, NA values, N/A
+values, which are pre-set.}
 }
 \value{
-A list object belonging to the \code{Likert_List} class where each element contains a nested list with the
-following 6 components:
+A list object belonging to the \code{Likert_List} class where each element contains a nested list with
+the following 6 components:
 \itemize{
 \item variable_name$question: A character vector
 \item variable_name$valid_count: A scalar numeric vector

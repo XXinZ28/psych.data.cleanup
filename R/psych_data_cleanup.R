@@ -5,9 +5,10 @@
 #' returns a list object holding counts for valid and invalid responses.
 #' @param data A data frame containing survey questions and responses uploaded by the user.
 #' @param likert_cols A character vector containing Likert-scale question names in c("","", ...).
-#' @param invalid_values A character vector containing invalid values such as empty string, NA values, N/A values, which are pre-set.
-#' @returns A list object belonging to the `Likert_List` class where each element contains a nested list with the
-#' following 6 components:
+#' @param invalid_values A character vector containing invalid values such as empty string, NA values, N/A
+#' values, which are pre-set.
+#' @returns A list object belonging to the `Likert_List` class where each element contains a nested list with
+#' the following 6 components:
 #' * variable_name$question: A character vector
 #' * variable_name$valid_count: A scalar numeric vector
 #' * variable_name$invalid_count: A scalar numeric vector, may be empty
@@ -96,10 +97,11 @@ as.data.frame.Likert_List <- function(list_results) {
 }
 
 #' @title Visualize Likert-scale response counts
-#' @description Given a validated object belonging to `Likert_List` class, it converts the object into a data frame, and
-#' generates a series of faceted bar charts for each of the selected Likert-scale questions. Each bar chart displays the
-#' valid response counts for each Likert point scale, with the fill color of the bars representing the Likert-scale for
-#' each question.
+#' @description Given the object returned by [likert_scale_analyzer()], the `draw_graph()` function checks
+#' that the object belongs to `Likert_List` class, converts the object into a data frame, and
+#' generates a series of faceted bar charts for each of the selected Likert-scale questions. Each bar chart
+#' displays the valid response counts for each Likert point scale, with the fill color of the bars
+#' representing the Likert-scale for each question.
 #' @param x The `Likert_List` object returned by [likert_scale_analyzer()].
 #' @importFrom ggplot2 geom_col
 #' @importFrom ggplot2 facet_wrap
@@ -108,9 +110,9 @@ as.data.frame.Likert_List <- function(list_results) {
 #' @importFrom ggplot2 scale_fill_continuous
 #' @importFrom ggplot2 theme_bw
 #' @importFrom dplyr .data
-#' @returns A series of faceted bar charts. Each bar chart corresponds to a Likert-scale question and displays the valid
-#' number of counts for each Likert-scale point. The fill color of each bar differentiates the various Likert-scales for
-#' each question.
+#' @returns A series of faceted bar charts. Each bar chart corresponds to a Likert-scale question and displays
+#' the valid number of counts for each Likert-scale point. The fill color of each bar differentiates the
+#' Likert-scale for each question.
 #' @export
 #' @examples
 #'  likert_results <- likert_scale_analyzer(
@@ -145,12 +147,12 @@ draw_graph <- function(x) {
 }
 
 #' @title Validating objects to ensure they belong to the `Likert_List` class
-#' @description The validator function `validate_likert()` certifies that the argument `x` belongs to the `Likert_List`
-#' class. It is used within the [draw_graph()] function to validate input.
+#' @description The validator function `validate_likert()` certifies that the argument `x` belongs to the
+#' `Likert_List` class. It is used within the [draw_graph()] function to validate input.
 #' @param x An object that is going to be validated to ensure that it belongs to the `Likert_List` class.
 #' @importFrom methods is
-#' @returns If object `x` does belong to the `Likert_List` class, `validate_likert()` will return the object. Otherwise,
-#' it will throw an error.
+#' @returns If object `x` does belong to the `Likert_List` class, `validate_likert()` will return the object.
+#' Otherwise, it will throw an error.
 #' @examples
 #' likert_results <- likert_scale_analyzer(
 #'   data = religious_som,

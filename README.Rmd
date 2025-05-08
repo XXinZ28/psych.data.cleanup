@@ -20,20 +20,24 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/XXinZ28/psych.data.cleanup/graph/badge.svg)](https://app.codecov.io/gh/XXinZ28/psych.data.cleanup)
 <!-- badges: end -->
 
-The `psych.data.cleanup` package provides an R interface to retrieve data from surveys containing likert scale questionnaires. It converts all invalid values to identical format, generates a nested object list of descriptive statistics, and print it out to the user. You can visualize the results in the RStudio plot window.
+The `psych.data.cleanup` package contains tools for processing survey data containing Likert-scale
+questionnaires and visualizing valid response counts. It converts all invalid values to identical format and
+generates a nested list of descriptive statistics for each selected question. Visual results appear as faceted
+bar charts in the RStudio plot window.
 
 ## Installation
 
 You can install the development version of psych.data.cleanup from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("XXinZ28/psych.data.cleanup")
+# install.packages("devtools")
+devtools::install_github("XXinZ28/psych.data.cleanup")
 ```
 
 ## Usage
 
-Given a religious optimism survey data, the `likert_scale_analyzer` function returns a nested list object containing elements that summarizes response counts for each question.
+The `likert_scale_analyzer()` function processes survey data containing Likert-scale questions, and returns a
+nested list object with elements that summarize response counts for each question.
 
 ```{r example}
 #| warning: false
@@ -45,13 +49,15 @@ likert_results <- likert_scale_analyzer(
   data = religious_som,
   likert_cols = c("relig_q4","relig_q5","relig_q10","relig_q11", "SOM_q1","SOM_q2","SOM_q3"),
   invalid_values = c(" ", "NA")
-) 
+)
+
+likert_results
 ```
 
-The `draw_graph` function takes in list results from`likert_scale_analyzer` function and displays a series of histograms. 
+The `draw_graph()` function generates faceted bar charts given the output returned by the
+`likert_scale_analyzer()` function. The faceted bar charts display the valid response counts for each of the
+selected Likert-scale questions.
 
 ```{r}
 draw_graph(likert_results)
 ```
-
-

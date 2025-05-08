@@ -10,15 +10,16 @@ draw_graph(x)
 \item{x}{The \code{Likert_List} object returned by \code{\link[=likert_scale_analyzer]{likert_scale_analyzer()}}.}
 }
 \value{
-A series of faceted bar charts. Each bar chart corresponds to a Likert-scale question and displays the valid
-number of counts for each Likert-scale point. The fill color of each bar differentiates the various Likert-scales for
-each question.
+A series of faceted bar charts. Each bar chart corresponds to a Likert-scale question and displays
+the valid number of counts for each Likert-scale point. The fill color of each bar differentiates the
+Likert-scale for each question.
 }
 \description{
-Given a validated object belonging to \code{Likert_List} class, it converts the object into a data frame, and
-generates a series of faceted bar charts for each of the selected Likert-scale questions. Each bar chart displays the
-valid response counts for each Likert point scale, with the fill color of the bars representing the Likert-scale for
-each question.
+Given the object returned by \code{\link[=likert_scale_analyzer]{likert_scale_analyzer()}}, the \code{draw_graph()} function checks
+that the object belongs to \code{Likert_List} class, converts the object into a data frame, and
+generates a series of faceted bar charts for each of the selected Likert-scale questions. Each bar chart
+displays the valid response counts for each Likert point scale, with the fill color of the bars
+representing the Likert-scale for each question.
 }
 \examples{
  likert_results <- likert_scale_analyzer(
