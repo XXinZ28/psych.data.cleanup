@@ -2,18 +2,20 @@
 % Please edit documentation in R/psych_data_cleanup.R
 \name{validate_likert}
 \alias{validate_likert}
-\title{MISSING TITLE}
+\title{Validating objects to ensure they belong to the \code{Likert_List} class}
 \usage{
 validate_likert(x)
 }
 \arguments{
-\item{x}{the argument received by the \code{draw_graph()} function}
+\item{x}{An object that is going to be validated to ensure that it belongs to the \code{Likert_List} class.}
 }
 \value{
-x
+If object \code{x} does belong to the \code{Likert_List} class, \code{validate_likert()} will return the object. Otherwise,
+it will throw an error.
 }
 \description{
-MISSING TITLE
+The validator function \code{validate_likert()} certifies that the argument \code{x} belongs to the \code{Likert_List}
+class. It is used within the \code{\link[=draw_graph]{draw_graph()}} function to validate input.
 }
 \examples{
 likert_results <- likert_scale_analyzer(
@@ -22,5 +24,4 @@ likert_results <- likert_scale_analyzer(
   invalid_values = c(" ", "NA"))
 
  draw_graph(likert_results)
-
 }

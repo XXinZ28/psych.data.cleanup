@@ -2,13 +2,20 @@
 % Please edit documentation in R/psych_data_cleanup.R
 \name{as.data.frame.Likert_List}
 \alias{as.data.frame.Likert_List}
-\title{Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()}
+\title{Convert objects belonging to the \code{Likert_List} class into a data frame}
 \usage{
 \method{as.data.frame}{Likert_List}(list_results)
 }
 \arguments{
-\item{list_results}{Any list object belonging to the "Likert_List" class}
+\item{list_results}{A list object of the \code{Likert_List} class.}
+}
+\value{
+A data frame containing the Likert-scale question names, Likert-scale points, counts for each
+Likert-scale point, and the maximum scale value for each question.
 }
 \description{
-Define as.data.frame method for results_list using S3 method: as.data.frame.likert_scale()
+Given an object of the \code{Likert_List} class, \code{as.data.frame.Likert_List()} converts the object
+into a data frame. The resulting data frame contains columns for: question name (\code{question}), point on
+Likert-scale (\code{response_num}), number of counts for each Likert-scale point (\code{response_counts}), and the
+maximum Likert-scale point per question (\code{scale_max}).
 }
