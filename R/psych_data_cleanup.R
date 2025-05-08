@@ -123,16 +123,16 @@ as.data.frame.Likert_List <- function(list_results) {
 #'  draw_graph(likert_results)
 draw_graph <- function(x) {
 
-  # making a call to the validator function to validate `x`
+  # 1) making a call to the validator function to validate `x`
   x <- validate_likert(x)
 
-  # converting `x` into a data frame
+  # 2) converting `x` into a data frame
   df_results <- as.data.frame(x)
 
-  # converting the `scale_max` variable of the `df_results` data frame into a factor
+  # 3) converting the `scale_max` variable of the `df_results` data frame into a factor
   df_results$scale_max <- as.factor(df_results$scale_max)
 
-  # generating the faceted bar charts
+  # 4) generating the faceted bar charts
   ggplot2::ggplot(df_results, ggplot2::aes(x = .data[["response_num"]],
                                            y = .data[["response_counts"]],
                                            fill = .data[["scale_max"]])) +
@@ -158,8 +158,7 @@ draw_graph <- function(x) {
 #'   data = religious_som,
 #'   likert_cols = c("relig_practice0", "relig_q4","relig_q5"),
 #'   invalid_values = c(" ", "NA"))
-#'
-#'  draw_graph(likert_results)
+#' draw_graph(likert_results)
 validate_likert <- function(x) {
 
   if (!is(x, "Likert_List")) {
