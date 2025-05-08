@@ -7,31 +7,33 @@
 likert_scale_analyzer(data, likert_cols, invalid_values = c(" ", "NA", "N/A"))
 }
 \arguments{
-\item{data}{dataset that user uploaded}
+\item{data}{A data frame containing survey questions and responses uploaded by the user.}
 
-\item{likert_cols}{users input all the likert columns variable names in c("","",...)}
+\item{likert_cols}{A character vector containing Likert-scale question names in c("","", ...).}
 
-\item{invalid_values}{invalid values such as empty string, NA values, N/A values that are pre-set.}
+\item{invalid_values}{A character vector containing invalid values such as empty string, NA values, N/A values, which are pre-set.}
 }
 \value{
-A nested list object of 7 elements
+A list object belonging to the \code{Likert_List} class where each element contains a nested list with the
+following 6 components:
 \itemize{
 \item variable_name$question: A character vector
 \item variable_name$valid_count: A scalar numeric vector
 \item variable_name$invalid_count: A scalar numeric vector, may be empty
 \item variable_name$scale_min: A scalar numeric vector
 \item variable_name$scale_max: A scalar numeric vector
-\item variable_name$response_counts: A table includes scale point and valid counts
+\item variable_name$response_counts: A table that includes scale point and valid counts
 }
 }
 \description{
-Given a likert scale survey, the \code{likert_scale_analyzer} function filter out invalid responses
-such as NA values and empty string, calculate scale points and range for each question, and
+Given a likert scale survey, the \code{likert_scale_analyzer} function filters out invalid responses
+such as NA values and empty strings, calculates scale points and range for each question, and
 returns a list object holding counts for valid and invalid responses.
 }
 \examples{
 likert_scale_analyzer(
   data = religious_som,
-  likert_cols = c("relig_q4","relig_experience1","relig_experience4","SOM_q1","SOM_q3")
+  likert_cols = c("relig_q4","relig_experience1","relig_experience4","SOM_q1","SOM_q3"),
+  invalid_values = c(" ", "NA", "N/A")
  )
 }

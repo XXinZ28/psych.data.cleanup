@@ -2,18 +2,23 @@
 % Please edit documentation in R/psych_data_cleanup.R
 \name{draw_graph}
 \alias{draw_graph}
-\title{Draw a histogram}
+\title{Visualize Likert-scale response counts}
 \usage{
 draw_graph(x)
 }
 \arguments{
-\item{x}{The dataframe created when \link{likert_scale_analyzer} is called.}
+\item{x}{The \code{Likert_List} object returned by \code{\link[=likert_scale_analyzer]{likert_scale_analyzer()}}.}
 }
 \value{
-A series of facet_wrap histogram, corresponding to the likert_scale.
+A series of faceted bar charts. Each bar chart corresponds to a Likert-scale question and displays the valid
+number of counts for each Likert-scale point. The fill color of each bar differentiates the various Likert-scales for
+each question.
 }
 \description{
-It plots a series of histogram summarizing valid response counts by each question, differentiating by likert scale.
+Given a validated object belonging to \code{Likert_List} class, it converts the object into a data frame, and
+generates a series of faceted bar charts for each of the selected Likert-scale questions. Each bar chart displays the
+valid response counts for each Likert point scale, with the fill color of the bars representing the Likert-scale for
+each question.
 }
 \examples{
  likert_results <- likert_scale_analyzer(
@@ -22,5 +27,4 @@ It plots a series of histogram summarizing valid response counts by each questio
   invalid_values = c(" ", "NA")
   )
  draw_graph(likert_results)
-
 }

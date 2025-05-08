@@ -1,10 +1,10 @@
 Package: psych.data.cleanup
-Title: An R package to preprocess data in psychology survey that have multiple choices questions
+Title: An R package designed to preprocess and visualize psychology survey data containing Likert-scale questions
 Version: 0.0.0.9000
 Authors@R: 
     person("XinXin", "Zhang", , "tz88802@gmail.com", role = c("aut", "cre"))
-    person("Yarid", "Deras", ,"ymonzonderas@smith.edu", role = c("aut", "cre"))
-Description: Steps include N/A cleanup, likert-scale response categorization, summarize number of responses in each group, visualize in histogram.
+    person("Yarid", "Monzon Deras", ,"ymonzonderas@smith.edu", role = c("aut", "cre"))
+Description: This package is designed for cleaning survey data, categorizing Likert-scale responses, summarizing valid response counts, and visualizing results using faceted bar charts.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
