@@ -22,6 +22,5 @@ likert_results <- likert_scale_analyzer(
   data = religious_som,
   likert_cols = c("relig_practice0", "relig_q4","relig_q5"),
   invalid_values = c(" ", "NA"))
-
- draw_graph(likert_results)
+draw_graph(likert_results)
 }
