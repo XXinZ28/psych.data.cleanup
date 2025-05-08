@@ -5,7 +5,27 @@
 \alias{religious_som}
 \title{Metadata for the religious optimism survey}
 \format{
+A tibble with 57 rows and 36 variables:
 \describe{
+.  \item{StartDate}{Date in which participant started survey.}
+.  \item{EndDate}{Date in which participant ended survey.}
+\item{Status}{Response type.}
+\item{IPAddress}{IP Address associated with participant taking survey.}
+\item{Progress}{Amount of survey completed by the participant.}
+\item{Duration (in seconds)}{Time in seconds participant spent on the survey.}
+\item{Finished}{Indicator representing whether a participant finished the survey or not.}
+\item{RecordedDate}{Date in which participant accessed survey.}
+\item{ResponseId}{Unique response identifier for each participant taking survey.}
+\item{RecipientLastName}{Last name of recipient.}
+\item{LocationLatitude}{Latitude coordinates of location in which the participant accessed the survey.}
+\item{LocationLongitude}{Longitude coordinates of location in which the participant accessed the survey.}
+\item{DistributionChannel}{Distribution channel of survey.}
+\item{UserLanguage}{Language in which the participant accessed the survey.}
+\item{consent_begin}{Indicator signifying whether participant is ready to start survey.}
+\item{relig_intellect...16}{Question about religious intellect.}
+\item{relig_ideology...17}{Question about religious ideology.}
+\item{relig_intellect...18}{Question about religious intellect.}
+\item{relig_ideology...19}{Question about religious ideology.}
 \item{relig_practice0}{Question one about religious practice.}
 \item{relig_q4}{Question four about religiousness.}
 \item{relig_q5}{Question five about religiousness.}
